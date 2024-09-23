@@ -1,0 +1,40 @@
+FSMON
+{
+echo "test"
+array=($(ls -I "*.gz" | grep ".log"))
+len=${#array[*]}
+echo $len
+for (( c=0; c<=$len-1;c++))
+do
+   echo "hey"
+   echo ${array[$c]}
+
+   if [[ $(find "${array[$c]}" -ctime +5 -print) ]]
+   then
+   echo "Hello"
+   echo ${array[$c]}
+   echo "${array[$c]} this file has been zipped " >> Zippedlog.txt
+   gzip -f ${array[$c]}
+   else
+   echo "${array[$c]} the file is not zipped due to the file was created below 3 days"  >> Unzippedlog.txt
+   echo "if condition failed"
+   fi
+   done
+}
+
+echo "Check"
+declare -a serv=("aukec2fx")
+leng=${#serv[*]}
+echo $leng
+for (( u=0; u<=$leng-1;u++))
+do
+   echo ${serv[$u]}
+   ssh bea@aukec2fx "cd /opt/bea;" && FSMON
+   echo "bea logs has been zipped"
+ #  ssh bea@${serv[$u]} "cd /opt/bea_domains;" && FSMON
+   echo "bea_logs logs has been zipped"
+  # ssh bea@${serv[$u]} "cd /opt/bea_logs/wf_p2_ec/${serv[$u]}_p2_ec1/logs;" && FSMON
+  # ssh bea@${serv[$u]} "cd /opt/bea_logs/wf_p2_ec/${serv[$u]}_p2_ec2/logs;" && FSMON
+  # ssh bea@${serv[$u]} "cd /opt/app_logs/wrp/pri/${serv[$u]}_p2_ec1;" && FSMON
+  # ssh bea@${serv[$u]} "cd /opt/app_logs/wrp/pri/${serv[$u]}_p2_ec2;" && FSMON
+done

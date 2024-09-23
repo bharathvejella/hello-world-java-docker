@@ -1,0 +1,3 @@
+1. copy the ami id and share it with email to bhushan's accenture team
+2. check with them if they have performed the activity in lower environment successfuly
+3.
